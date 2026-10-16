@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Environment Banner for SAP BTP</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h1>Tag this page</h1>
+
+  <section id="no-target" hidden>
+    <p id="no-target-msg" class="muted">This page is not an SAP BTP app (*.cloud.sap or *.ondemand.com).</p>
+  </section>
+
+  <section id="target" hidden>
+    <p class="target"><span id="app"></span><br><span id="kind" class="muted"></span><code id="key"></code></p>
+    <p id="current" class="current" hidden></p>
+
+    <label for="name">Name <span class="muted">(optional, shown in the banner)</span></label>
+    <input id="name" type="text" maxlength="60" placeholder="e.g. Content Agent DEV">
+
+    <div id="types" class="types"></div>
+    <button id="remove" type="button" class="link danger" hidden>Remove tag</button>
+  </section>
+
+  <p id="status" class="muted" role="status"></p>
+  <footer><a href="#" id="settings">All settings…</a></footer>
+
+  <script src="rules.js"></script>
+  <script src="tagging.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Popup preview</title>
+  <link rel="stylesheet" href="../popup.css">
+  <style>body { border: 1px solid #ccc; margin: 16px; }</style>
+  <script>
+    // Stubs the extension APIs so popup.js can run in a normal page.
+    // ?url=sub|org|other|<full url> picks the simulated active tab;
+    // ?reset clears the simulated storage (kept in localStorage).
+    // All IDs and hosts below are made up.
+    const URLS = {
+      sub: 'https://emea.cockpit.btp.cloud.sap/cockpit/#/globalaccount/00000000-0000-4000-8000-000000000000/subaccount/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa/subaccountoverview',
+      org: 'https://mobile-service-cockpit-web.cfapps.ap10.hana.ondemand.com/cockpit/v1/org/33333333-3333-4333-8333-333333333333/space/x/index.html#/page.apps.overview/x',
+      host: 'https://dev-myapp.ap10.content-agent.cloud.sap/index.html',
+      shared: 'https://emea.cockpit.btp.cloud.sap/cockpit/#/globalaccount/00000000-0000-4000-8000-000000000000',
+      other: 'https://example.com/'
+    };
+    const params = new URLSearchParams(location.search);
+    const tabUrl = URLS[params.get('url') || 'sub'] || params.get('url');
+    const KEY = 'popup-preview-storage';
+    if (params.has('reset')) localStorage.removeItem(KEY);
+    const read = () => JSON.parse(localStorage.getItem(KEY) || '{}');
+    window.close = () => { window.__closed = true; document.title = 'closed'; };
+    window.chrome = {
+      tabs: { query: async () => [{ url: tabUrl }] },
+      storage: {
+        sync: {
+          get: async key => (key in read() ? { [key]: read()[key] } : {}),
+          set: async obj => localStorage.setItem(KEY, JSON.stringify({ ...read(), ...obj }))
+        }
+      },
+      runtime: { openOptionsPage: () => { window.__optionsOpened = true; } }
+    };
+
+    // Load popup.html's markup, then its scripts in order.
+    addEventListener('DOMContentLoaded', async () => {
+      const html = await (await fetch('../popup.html')).text();
+      document.body.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
+      for (const src of ['rules.js', 'tagging.js', 'popup.js']) {
+        await new Promise(resolve => {
+          const s = document.createElement('script');
+          s.src = `../${src}`;
+          s.onload = resolve;
+          document.body.appendChild(s);
+        });
+      }
+    });
+  </script>
+</head>
+<body></body>
+</html>

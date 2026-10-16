@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Settings preview</title>
+  <link rel="stylesheet" href="../options.css">
+  <script>
+    // Stubs the extension APIs so options.js can run in a normal page.
+    // ?reset clears the simulated storage (kept in localStorage).
+    const KEY = 'options-preview-storage';
+    if (new URLSearchParams(location.search).has('reset')) localStorage.removeItem(KEY);
+    const read = () => JSON.parse(localStorage.getItem(KEY) || '{}');
+    window.confirm = () => true;
+    window.chrome = {
+      storage: {
+        sync: {
+          get: async key => (key in read() ? { [key]: read()[key] } : {}),
+          set: async obj => localStorage.setItem(KEY, JSON.stringify({ ...read(), ...obj }))
+        }
+      }
+    };
+
+    // Load options.html's markup, then its scripts in order.
+    addEventListener('DOMContentLoaded', async () => {
+      const html = await (await fetch('../options.html')).text();
+      document.body.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
+      for (const src of ['rules.js', 'options.js']) {
+        await new Promise(resolve => {
+          const s = document.createElement('script');
+          s.src = `../${src}`;
+          s.onload = resolve;
+          document.body.appendChild(s);
+        });
+      }
+    });
+  </script>
+</head>
+<body></body>
+</html>

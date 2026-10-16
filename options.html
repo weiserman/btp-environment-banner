@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Environment Banner for SAP BTP – Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>Environment Banner for SAP BTP</h1>
+    <p class="hint">
+      A rule matches when its <b>URL match</b> text appears anywhere in the page URL (case-insensitive) on
+      <code>*.ondemand.com</code> and <code>*.cloud.sap</code>. The first enabled matching rule wins. Tip: use the CF org GUID,
+      subaccount GUID, or <code>//host.name/</code> for apps that have a host per environment. Easiest: click the
+      toolbar icon on the page and pick a type.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>On</th>
+          <th>Label</th>
+          <th>Description</th>
+          <th>Badge</th>
+          <th>Colour</th>
+          <th>Striped</th>
+          <th class="wide">URL match</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p id="empty" class="hint" hidden>No rules yet. Open an SAP BTP app, click the toolbar icon and pick DEV, TEST or PRD – or import a rules file.</p>
+
+    <div class="actions">
+      <button id="add" type="button">+ Add environment</button>
+      <button id="import" type="button">Import…</button>
+      <input id="import-file" type="file" accept=".json,application/json" hidden>
+      <button id="export" type="button">Export</button>
+      <span class="spacer"></span>
+      <button id="clear" type="button" class="danger">Delete all</button>
+      <button id="save" type="button" class="primary">Save</button>
+    </div>
+    <p id="status" role="status"></p>
+
+    <template id="row-template">
+      <tr>
+        <td><input type="checkbox" data-field="enabled"></td>
+        <td><input type="text" data-field="label" maxlength="20" placeholder="PRD"></td>
+        <td><input type="text" data-field="description" maxlength="60" placeholder="Production"></td>
+        <td><input type="text" data-field="badge" maxlength="4" size="4" placeholder="PRD"></td>
+        <td><input type="color" data-field="color"></td>
+        <td><input type="checkbox" data-field="striped"></td>
+        <td class="wide"><input type="text" data-field="match" placeholder="org / space / subaccount GUID or any URL fragment"></td>
+        <td><button type="button" class="delete" title="Delete rule">&times;</button></td>
+      </tr>
+    </template>
+  </main>
+  <script src="rules.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

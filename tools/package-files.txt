@@ -1,0 +1,16 @@
+manifest.json
+rules.js
+tagging.js
+content.js
+banner.css
+background.js
+popup.html
+popup.js
+popup.css
+options.html
+options.js
+options.css
+icons/icon16.png
+icons/icon48.png
+icons/icon128.png
+LICENSE

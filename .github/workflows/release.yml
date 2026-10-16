@@ -1,0 +1,53 @@
+name: Release
+
+# Push a tag like v2.0.0 (matching manifest.json "version") to build the store zip
+# and attach it, with its SHA-256 checksum, to a GitHub release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Unit tests
+        run: node test/run-tests.js
+
+      - name: Tag matches manifest version
+        run: |
+          VERSION=$(node -p "require('./manifest.json').version")
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $VERSION"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: No network APIs in packaged code
+        run: |
+          if grep -nE "fetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|importScripts" $(grep '\.js$' tools/package-files.txt); then
+            echo "::error::Network or remote-code API found in packaged code"
+            exit 1
+          fi
+
+      - name: Build zip
+        run: |
+          mkdir -p dist
+          ZIP="sap-btp-environment-banner-$VERSION.zip"
+          # Fixed timestamps and file order so the same commit always gives the same zip.
+          xargs -a tools/package-files.txt touch -d '2000-01-01T00:00:00Z'
+          xargs -a tools/package-files.txt zip -X -D "dist/$ZIP"
+          (cd dist && sha256sum "$ZIP" > "$ZIP.sha256" && cat "$ZIP.sha256")
+          unzip -l "dist/$ZIP"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes

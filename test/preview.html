@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Banner preview</title>
+  <style>
+    /* Mimic a UI5 full-height shell */
+    html, body { height: 100%; margin: 0; }
+    body { font: 14px "Segoe UI", Arial, sans-serif; background: #f5f6f7; }
+    /* The real cockpit shell bar is position:fixed at top:0 */
+    .shell { height: 100%; overflow: auto; }
+    .shell header { position: fixed; top: 0; left: 0; right: 0; height: 44px; background: #354a5f; color: #fff; display: flex; align-items: center; padding: 0 16px; font-weight: 600; }
+    .shell .content { padding: 60px 16px 16px; }
+    .bottom { position: fixed; bottom: 0; left: 0; right: 0; height: 24px; background: #ddd; padding: 4px 16px; box-sizing: border-box; font-size: 12px; }
+    nav a { margin-right: 12px; }
+  </style>
+  <script>
+    // Stubs the extension APIs so content.js can run in a normal page.
+    // All IDs and hosts below are made up.
+    const MS = 'https://mobile-service-cockpit-web.cfapps.ap10.hana.ondemand.com/cockpit/v1/org/';
+    const CP = 'https://emea.cockpit.btp.cloud.sap/cockpit/#/globalaccount/00000000-0000-4000-8000-000000000000';
+    const URLS = {
+      dev: `${MS}11111111-1111-4111-8111-111111111111/space/x/index.html`,
+      test: `${MS}22222222-2222-4222-8222-222222222222/space/x/index.html`,
+      prd: `${MS}33333333-3333-4333-8333-333333333333/space/x/index.html`,
+      subdev: `${CP}/subaccount/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa/subaccountoverview`,
+      subprd: `${CP}/subaccount/cccccccc-cccc-4ccc-8ccc-cccccccccccc/subaccountoverview`,
+      host: 'https://dev-myapp.ap10.content-agent.cloud.sap/index.html',
+      badcolor: 'https://evil-colour.example.cloud.sap/',
+      global: `${CP}/accountModel`,
+      none: `${MS}99999999-9999-4999-8999-999999999999/index.html`
+    };
+    const RULES = [
+      { label: 'DEV', description: 'Development', badge: 'DEV', color: '#2e7d32', striped: false, match: '11111111-1111-4111-8111-111111111111' },
+      { label: 'TEST', description: 'Test / QA', badge: 'TST', color: '#ef6c00', striped: false, match: '/org/22222222-2222-4222-8222-222222222222' },
+      { label: 'PRD', description: 'PRODUCTION', badge: 'PRD', color: '#c62828', striped: true, match: '/org/33333333-3333-4333-8333-333333333333' },
+      { label: 'DEV', description: 'Example subaccount', badge: 'DEV', color: '#2e7d32', striped: false, match: '/subaccount/aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' },
+      { label: 'PRD', description: 'Example subaccount', badge: 'PRD', color: '#c62828', striped: true, match: '/subaccount/cccccccc-cccc-4ccc-8ccc-cccccccccccc' },
+      { label: 'DEV', description: 'Content Agent', badge: 'DEV', color: '#2e7d32', striped: false, match: '//dev-myapp.ap10.content-agent.cloud.sap/' },
+      // Hostile colour value: must be replaced by the grey fallback, not injected.
+      { label: 'BAD', description: '<img src=x onerror=alert(1)>', badge: 'BAD', color: 'red;background:url(https://example.com/x)', match: '//evil-colour.example.cloud.sap/' }
+    ];
+    const envParam = new URLSearchParams(location.search).get('env') || 'prd';
+    window.__BTP_ENV_TEST_URL__ = URLS[envParam] || URLS.prd;
+    window.__messages = [];
+    window.chrome = {
+      storage: {
+        sync: { get: () => Promise.resolve({ envs: RULES }) },
+        onChanged: { addListener() {} }
+      },
+      runtime: {
+        sendMessage: msg => { window.__messages.push(msg); return Promise.resolve(); },
+        getManifest: () => ({ version: 'preview' })
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="../banner.css">
+  <script src="../rules.js"></script>
+  <script src="../content.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header>SAP BTP app (simulated shell header)</header>
+    <div class="content">
+      <nav>
+        <a href="?env=dev">DEV org</a><a href="?env=test">TEST org</a><a href="?env=prd">PRD org</a><a href="?env=none">No match</a> |
+        <a href="?env=subdev">Sub DEV</a><a href="?env=subprd">Sub PRD</a><a href="?env=global">Global account</a> |
+        <a href="?env=host">Host DEV</a><a href="?env=badcolor">Bad colour</a>
+      </nav>
+      <p>The banner should sit above the dark (fixed) shell header without covering it.</p>
+    </div>
+  </div>
+  <div class="bottom">Fixed footer – should stay fully visible at the bottom</div>
+</body>
+</html>

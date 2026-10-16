@@ -1,0 +1,9 @@
+# Your own rules export – never commit company IDs or hostnames
+private/
+*-rules*.json
+
+# Build output
+dist/
+
+# Local tooling
+.claude/

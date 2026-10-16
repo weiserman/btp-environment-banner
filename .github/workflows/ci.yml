@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Unit tests
+        run: node test/run-tests.js
+
+      - name: Syntax check and manifest
+        run: |
+          for f in *.js; do node --check "$f"; done
+          node -e "JSON.parse(require('fs').readFileSync('manifest.json', 'utf8'))"
+
+      - name: Packaged files exist
+        run: xargs -a tools/package-files.txt ls -l
+
+      - name: No network APIs in packaged code
+        run: |
+          if grep -nE "fetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|importScripts" $(grep '\.js$' tools/package-files.txt); then
+            echo "::error::Network or remote-code API found in packaged code"
+            exit 1
+          fi

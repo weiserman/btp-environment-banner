@@ -1,0 +1,17 @@
+/* Injected by the manifest, so the page's Content Security Policy cannot block
+   it and the page cannot remove it. Only active while content.js sets
+   data-btp-env-banner on <html>.
+
+   The UI5 shell bar is position:fixed, so padding alone does not move it; a
+   transform on body makes body the containing block for fixed descendants,
+   shifting them down with the rest of the page. The banner host lives on
+   <html>, outside body, so it stays at the viewport top. */
+html[data-btp-env-banner] {
+  height: 100% !important;
+}
+
+html[data-btp-env-banner] > body {
+  transform: translateY(28px) !important;
+  height: calc(100% - 28px) !important;
+  min-height: 0 !important;
+}
