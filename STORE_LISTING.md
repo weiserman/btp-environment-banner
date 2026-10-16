@@ -12,6 +12,9 @@ Know if you're in DEV, TEST or PRD: coloured banner and toolbar badge for BTP ap
 
 ## Description
 
+Don't list product names in the description: Chrome rejected v2.0.1 for "keyword spam" over a list of
+SAP product names. Describe what the extension does instead.
+
 Many BTP pages look identical whether you are in development, test or production. The only difference is
 a GUID buried in the URL. Environment Banner for BTP puts a coloured bar across the top of the page and a
 badge on the toolbar icon, so you always know where you are before you click Deploy, Delete or Save.
@@ -22,11 +25,9 @@ HOW IT WORKS
 • The banner pushes the page down instead of covering it, and can be hidden with ×.
 
 WHAT YOU CAN TAG
-• BTP cockpit subaccounts (by subaccount ID)
-• Mobile Services cockpit (by Cloud Foundry org ID)
-• Any other BTP app with its own address per environment, for example Content Agent, Integration Suite,
-  SAP Build Work Zone, SAP Build, Datasphere and ABAP environment (by hostname)
-• SAP Cloud Identity Services tenants (by tenant hostname)
+• A subaccount in the BTP cockpit, by its subaccount ID
+• A Cloud Foundry org, by its org ID
+• Any other app that has its own web address per environment, by its hostname
 
 SETTINGS
 • Edit labels, colours, badges and match rules on the settings page.
@@ -54,8 +55,8 @@ coloured banner and toolbar badge based on rules the user creates.
 | Permission | Justification |
 |------------|---------------|
 | `storage` | Saves the user's environment rules (label, colour, URL match text) so the banner is shown on later visits and synced across the user's own browsers. |
-| Host permission `https://*.cloud.sap/*` | BTP apps (BTP cockpit, Content Agent, SAP Build, Datasphere, S/4HANA Cloud and others) are served from this domain. The content script compares the page URL with the user's rules and draws the banner. No page content is read. |
-| Host permission `https://*.ondemand.com/*` | BTP Cloud Foundry apps (Mobile Services cockpit, Integration Suite, Work Zone, custom apps, under hana.ondemand.com) and SAP Cloud Identity Services tenants (accounts.ondemand.com) are served from this domain. Used the same way as above. |
+| Host permission `https://*.cloud.sap/*` | The BTP cockpit and BTP apps are served from this domain. The content script compares the page URL with the user's rules and draws the banner. No page content is read. |
+| Host permission `https://*.ondemand.com/*` | BTP Cloud Foundry apps and identity tenants are served from this domain. Used the same way as above. |
 | Remote code | No. All JavaScript is included in the package. |
 
 ## Data usage (Chrome "Privacy practices" tab)
