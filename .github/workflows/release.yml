@@ -40,7 +40,7 @@ jobs:
       - name: Build zip
         run: |
           mkdir -p dist
-          ZIP="sap-btp-environment-banner-$VERSION.zip"
+          ZIP="btp-environment-banner-$VERSION.zip"
           # Fixed timestamps and file order so the same commit always gives the same zip.
           xargs -a tools/package-files.txt touch -d '2000-01-01T00:00:00Z'
           xargs -a tools/package-files.txt zip -X -D "dist/$ZIP"

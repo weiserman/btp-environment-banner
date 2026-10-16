@@ -1,6 +1,6 @@
 // Sets a per-tab toolbar badge from the environment reported by content.js.
 // Makes no network requests and stores nothing.
-const DEFAULT_TITLE = 'Environment Banner for SAP BTP (click to tag this page)';
+const DEFAULT_TITLE = 'Environment Banner for BTP (click to tag this page)';
 const BTP_HOSTS = ['.ondemand.com', '.cloud.sap'];
 const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
   });
 });
 
-// Leaving SAP BTP: no content script runs there, so clear the badge.
+// Leaving BTP: no content script runs there, so clear the badge.
 // tab.url is only visible for hosts in host_permissions, so an undefined URL
 // also means "not a BTP page".
 chrome.tabs.onUpdated.addListener((tabId, info, tab) => {

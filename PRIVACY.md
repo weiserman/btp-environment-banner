@@ -1,6 +1,6 @@
 # Privacy policy
 
-_Environment Banner for SAP BTP – last updated 16 October 2026_
+_Environment Banner for BTP – last updated 16 October 2026_
 
 **Short version: the extension collects nothing and sends nothing anywhere.**
 
@@ -8,7 +8,7 @@ _Environment Banner for SAP BTP – last updated 16 October 2026_
 
 | Data | Used for | Where it goes |
 |------|----------|---------------|
-| The address (URL) of SAP BTP pages you open (`*.cloud.sap`, `*.ondemand.com`) | Compared, inside your browser, against your own rules to decide which banner to show | Nowhere. It is not stored or transmitted. |
+| The address (URL) of BTP pages you open (`*.cloud.sap`, `*.ondemand.com`) | Compared, inside your browser, against your own rules to decide which banner to show | Nowhere. It is not stored or transmitted. |
 | The rules you create (label, description, colour, URL match text such as a subaccount ID or hostname) | Showing the banner and badge | Saved with `chrome.storage.sync` in your browser. If you have browser sync turned on, your browser vendor (Google or Microsoft) syncs it between your own devices, as it does for other extension settings. |
 | Rules files you export or import | Backup and sharing, only when you click Export or Import | A local file you choose. |
 
@@ -26,4 +26,4 @@ Uninstalling the extension deletes its stored rules. You can also delete them at
 
 ## Contact
 
-Questions: open an issue at <https://github.com/weiserman/sap-btp-environment-banner/issues>. Security issues: see [SECURITY.md](SECURITY.md).
+Questions: open an issue at <https://github.com/weiserman/btp-environment-banner/issues>. Security issues: see [SECURITY.md](SECURITY.md).

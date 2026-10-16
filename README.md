@@ -1,6 +1,6 @@
-# Environment Banner for SAP BTP
+# Environment Banner for BTP
 
-A Chrome and Microsoft Edge extension that shows a coloured **DEV / TEST / PRD banner** at the top of SAP BTP
+A Chrome and Microsoft Edge extension that shows a coloured **DEV / TEST / PRD banner** at the top of BTP
 apps and a matching **toolbar badge**, so you always know which environment you are working in.
 
 Many BTP pages, such as the Mobile Services cockpit or the BTP cockpit, look identical in every environment;
@@ -14,7 +14,7 @@ only a GUID in the URL differs. This extension makes the difference obvious.
 
 - **Chrome Web Store:** _link once published_
 - **Microsoft Edge Add-ons:** _link once published_
-- **From source:** download the zip from [Releases](https://github.com/weiserman/sap-btp-environment-banner/releases) and unzip it, or clone this repository; then open `chrome://extensions` (or `edge://extensions`),
+- **From source:** download the zip from [Releases](https://github.com/weiserman/btp-environment-banner/releases) and unzip it, or clone this repository; then open `chrome://extensions` (or `edge://extensions`),
   turn on **Developer mode**, click **Load unpacked** and choose the folder.
 
 Pin the extension so the badge is always visible.
@@ -56,7 +56,7 @@ Rules are stored with `chrome.storage.sync`, which allows roughly 40–50 rules.
 | Permission | Why |
 |------------|-----|
 | `storage` | Save your rules. |
-| `https://*.cloud.sap/*`, `https://*.ondemand.com/*` | Show the banner on SAP BTP apps. Only the page URL is compared with your rules; page content is never read. |
+| `https://*.cloud.sap/*`, `https://*.ondemand.com/*` | Show the banner on BTP apps. Only the page URL is compared with your rules; page content is never read. |
 
 ## Development
 
@@ -85,7 +85,7 @@ tools/            packaging script and the list of packaged files
 1. Bump `version` in `manifest.json` and commit.
 2. Tag and push: `git tag v2.0.0 && git push origin v2.0.0`.
 3. The **Release** workflow runs the tests, checks that the tag matches the manifest version, builds
-   `sap-btp-environment-banner-<version>.zip` with a SHA-256 checksum, and attaches both to a GitHub release.
+   `btp-environment-banner-<version>.zip` with a SHA-256 checksum, and attaches both to a GitHub release.
 4. Upload that zip to the Chrome Web Store and Edge Add-ons. Listing text is in
    [STORE_LISTING.md](STORE_LISTING.md).
 

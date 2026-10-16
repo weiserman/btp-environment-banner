@@ -1,17 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Environment Banner for SAP BTP",
+  "name": "Environment Banner for BTP",
   "short_name": "BTP Env Banner",
-  "homepage_url": "https://github.com/weiserman/sap-btp-environment-banner",
-  "version": "2.0.0",
-  "description": "Coloured DEV / TEST / PRD banner and toolbar badge for SAP BTP apps. Runs locally, collects no data. Not affiliated with SAP.",
+  "homepage_url": "https://github.com/weiserman/btp-environment-banner",
+  "version": "2.0.1",
+  "description": "Coloured DEV / TEST / PRD banner and toolbar badge for BTP apps. Runs locally, collects no data. Not affiliated with SAP.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "Environment Banner for SAP BTP (click to tag this page)",
+    "default_title": "Environment Banner for BTP (click to tag this page)",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

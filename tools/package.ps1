@@ -1,4 +1,4 @@
-# Builds dist/sap-btp-environment-banner-<version>.zip (plus .sha256) from the files in
+# Builds dist/btp-environment-banner-<version>.zip (plus .sha256) from the files in
 # tools/package-files.txt – the same list the GitHub release workflow uses.
 # Usage: powershell -ExecutionPolicy Bypass -File tools/package.ps1
 $ErrorActionPreference = 'Stop'
@@ -8,7 +8,7 @@ $files = Get-Content (Join-Path $PSScriptRoot 'package-files.txt') | Where-Objec
 
 $dist = Join-Path $root 'dist'
 New-Item -ItemType Directory -Force $dist | Out-Null
-$zipName = "sap-btp-environment-banner-$version.zip"
+$zipName = "btp-environment-banner-$version.zip"
 $zip = Join-Path $dist $zipName
 if (Test-Path $zip) { Remove-Item $zip }
 

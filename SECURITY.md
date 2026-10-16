@@ -22,7 +22,7 @@ dependencies: the published package contains exactly the files in this repositor
 | Area | Design |
 |------|--------|
 | Network | No network requests of any kind. The extension pages' content security policy sets `connect-src 'none'` and `default-src 'none'`. |
-| Permissions | `storage` only, plus host access to `*.cloud.sap` and `*.ondemand.com`, the domains SAP BTP apps run on. No `tabs`, `cookies`, `webRequest`, `scripting` or `<all_urls>`. |
+| Permissions | `storage` only, plus host access to `*.cloud.sap` and `*.ondemand.com`, the domains BTP apps run on. No `tabs`, `cookies`, `webRequest`, `scripting` or `<all_urls>`. |
 | Page access | The content script reads only `location.href` and adds its own banner element in a Shadow DOM. It does not read page content, forms, cookies or storage. |
 | Untrusted input | Rules can come from imported files or browser sync. Every rule goes through `sanitizeRule()` in `rules.js`: text is length-limited, colours must match `#rrggbb` or fall back to grey. The banner never interpolates rule values into HTML or CSS text; text is set with `textContent`, colours through `element.style`. |
 | Messaging | The background worker only accepts messages from this extension's own content scripts (`sender.id` check) and only uses them to set the toolbar badge. |

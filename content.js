@@ -138,7 +138,7 @@
   }
 
   try {
-    console.info(`[Environment Banner for SAP BTP] v${chrome.runtime.getManifest().version} loaded`);
+    console.info(`[Environment Banner for BTP] v${chrome.runtime.getManifest().version} loaded`);
   } catch {}
 
   loadEnvs().then(render);
