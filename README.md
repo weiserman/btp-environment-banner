@@ -10,6 +10,16 @@ only a GUID in the URL differs. This extension makes the difference obvious.
 - No dependencies, no build step, about 500 lines of JavaScript. See [SECURITY.md](SECURITY.md).
 - Not affiliated with, endorsed by or sponsored by SAP SE.
 
+## Screenshots
+
+**DEV:** green banner on a BTP cockpit subaccount. The page is pushed down, not covered.
+
+![Green DEV banner above the BTP cockpit](docs/screenshots/dev-btp-cockpit.png)
+
+**PRD:** striped red banner on an identity tenant.
+
+![Striped red PRD banner above the Cloud Identity Services admin console](docs/screenshots/prd-cloud-identity-services.png)
+
 ## Install
 
 - **Chrome Web Store:** _link once published_
