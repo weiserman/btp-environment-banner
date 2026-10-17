@@ -16,6 +16,10 @@ only a GUID in the URL differs. This extension makes the difference obvious.
 
 ![Green DEV banner above the BTP cockpit](docs/screenshots/dev-btp-cockpit.png)
 
+**DEV:** an app tagged by hostname (Integration Suite).
+
+![Green DEV banner above Integration Suite](docs/screenshots/dev-integration-suite.png)
+
 **PRD:** striped red banner on an identity tenant.
 
 ![Striped red PRD banner above the Cloud Identity Services admin console](docs/screenshots/prd-cloud-identity-services.png)
